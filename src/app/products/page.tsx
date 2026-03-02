@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { FaShoppingCart, FaInfoCircle, FaSearch, FaWeightHanging, FaFilter, FaTimes } from "react-icons/fa";
 import { supabase } from "../lib/supabaseClient";
 
@@ -118,13 +119,110 @@ export default function ProductsPage() {
     return [];
   };
 
+  // Helper function to get image path from product name
   const getImageUrl = (product: Product) => {
-    if (product.image_url && product.image_url.startsWith("http")) return product.image_url;
+    // List of available image files (exact filenames)
+    const availableImages = [
+      "BLACK SESAME SEEDS.webp", "BROWN CHANNA.webp", "BYADAGI CHILLI.webp", "Barnyard Millet.webp",
+      "CHANA DAL.webp", "CORIANDER.webp", "CUMIN SEEDS.webp", "Cardamom.webp", "Cinnamon.webp",
+      "Cloves.webp", "Fennel Seeds.webp", "Foxtail Millet.webp", "GREEN PEAS.webp", "GROUNDNUTS.webp",
+      "Guntur Red Chilli.webp", "HORSE GRAM.webp", "Jowar.webp", "Kodo Millet.webp", "Little Millet.webp",
+      "MOONG DAL.webp", "Methi Seeds.webp", "Mustard Seeds.webp", "OGRANIC GREEN GRAM.webp", "Pearl Millet.webp",
+      "Proso Millet.webp", "ROASTED CHANNA DAL.webp", "Ragi Millet.webp", "TOOR DAL.webp", "TURMERIC POWDER.webp",
+      "URAD GOTA.webp", "White Sesame Seeds.webp", "pepper.webp"
+    ];
+    
+    // If there's a direct image_url that starts with http, use it
+    if (product.image_url && product.image_url.startsWith("http")) {
+      return product.image_url;
+    }
+    
+    // If there's an image_url that starts with /pictures, use it
+    if (product.image_url && product.image_url.startsWith("/pictures")) {
+      return product.image_url;
+    }
+    
+    // Try images array if available
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
       const firstImg = product.images[0];
       if (firstImg.src) return firstImg.src;
     }
-    return "/placeholder-product.jpg";
+    
+    // Try to find exact match in available images
+    if (product.name) {
+      // Special mappings FIRST (before other checks) - more flexible matching
+      const specialMappings: { [key: string]: string } = {
+        "URAD DAL": "URAD GOTA.webp",
+        "URAD GOTA": "URAD GOTA.webp",
+        "URAD": "URAD GOTA.webp",
+        "PADDY": "/images/rice.jpeg",
+        "RICE": "/images/rice.jpeg",
+        "PERSO": "Proso Millet.webp",
+        "PROSO": "Proso Millet.webp",
+        "GUNTUR CHILL": "Guntur Red Chilli.webp",
+        "GUNTUR CHILLI": "Guntur Red Chilli.webp",
+        "GUNTUR RED CHILLI": "Guntur Red Chilli.webp",
+        "GUNTUR RED CHILL": "Guntur Red Chilli.webp",
+        "GUNTUR": "Guntur Red Chilli.webp",
+        "GUNTER CHILL": "Guntur Red Chilli.webp",
+        "GUNTER CHILLI": "Guntur Red Chilli.webp",
+        "GUNTER": "Guntur Red Chilli.webp",
+        "ORGANIC GREEN GRAM": "OGRANIC GREEN GRAM.webp"
+      };
+      
+      const upperProductName = product.name.toUpperCase().trim();
+      
+      // Check for exact match
+      if (specialMappings[upperProductName]) {
+        const mappedImage = specialMappings[upperProductName];
+        // If it starts with /images/, return as-is, otherwise add /pictures/ prefix
+        if (mappedImage.startsWith("/images/")) {
+          return mappedImage;
+        }
+        return `/pictures/${mappedImage}`;
+      }
+      
+      // Additional checks for PADDY/RICE (more flexible)
+      if (upperProductName.includes("PADDY") || upperProductName.includes("RICE")) {
+        return "/images/rice.jpeg";
+      }
+      
+      // Additional checks for PERSO/PROSO (more flexible)
+      if (upperProductName.includes("PERSO") || upperProductName.includes("PROSO")) {
+        return "/pictures/Proso Millet.webp";
+      }
+      
+      // Additional checks for GUNTUR (more flexible)
+      if (upperProductName.includes("GUNTUR") || upperProductName.includes("GUNTER")) {
+        return "/pictures/Guntur Red Chilli.webp";
+      }
+      
+      // Check if product name contains URAD
+      if (upperProductName.includes("URAD")) {
+        return "/pictures/URAD GOTA.webp";
+      }
+      
+      // First try exact match (case insensitive)
+      const exactMatch = availableImages.find(img => 
+        img.toLowerCase() === product.name.toLowerCase() + ".webp"
+      );
+      if (exactMatch) return `/pictures/${exactMatch}`;
+      
+      // Try partial match (contains)
+      const partialMatch = availableImages.find(img => 
+        img.toLowerCase().includes(product.name.toLowerCase()) || 
+        product.name.toLowerCase().includes(img.toLowerCase().replace('.webp', ''))
+      );
+      if (partialMatch) return `/pictures/${partialMatch}`;
+      
+      // Default fallback to a generic image if available
+      if (availableImages.includes("pepper.webp")) {
+        return "/pictures/pepper.webp";
+      }
+    }
+    
+    // Return undefined instead of null to satisfy TypeScript img src type
+    return undefined;
   };
 
   // Filter products by category using nested product_categories
@@ -491,7 +589,7 @@ export default function ProductsPage() {
                       {/* Product Image */}
                       <div className="h-56 overflow-hidden bg-gray-100 relative">
                         <img
-                          src={getImageUrl(product)}
+                          src={getImageUrl(product) || ""}
                           alt={product.name}
                           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                         />
@@ -742,7 +840,7 @@ export default function ProductsPage() {
                   return (
                     <div key={productId} className="flex items-center bg-gray-50 p-3 rounded-lg">
                       <img
-                        src={getImageUrl(product)}
+                        src={getImageUrl(product) || ""}
                         alt={product.name}
                         className="w-12 h-12 object-cover rounded mr-3"
                       />

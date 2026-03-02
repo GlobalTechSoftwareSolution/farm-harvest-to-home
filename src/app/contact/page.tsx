@@ -1,13 +1,12 @@
 "use client"
 import { useState, useRef, FormEvent, useEffect } from "react"
-import emailjs from "@emailjs/browser"
-import { 
-  FaMapMarkerAlt, 
-  FaPhoneAlt, 
-  FaEnvelope, 
-  FaInstagram, 
-  FaFacebook, 
-  FaYoutube, 
+import {
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaInstagram,
+  FaFacebook,
+  FaYoutube,
   FaLeaf,
   FaCheckCircle,
   FaTimesCircle,
@@ -22,10 +21,10 @@ export default function ContactPage() {
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [popup, setPopup] = useState<{ 
-    show: boolean; 
-    message: string; 
-    type: "success" | "error" 
+  const [popup, setPopup] = useState<{
+    show: boolean;
+    message: string;
+    type: "success" | "error"
   }>({
     show: false,
     message: "",
@@ -41,41 +40,46 @@ export default function ContactPage() {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  // EmailJS Send Function
-  const sendEmail = (e: FormEvent<HTMLFormElement>) => {
+  // Local Contact API Send Function
+  const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    if (!form.current) return
-
-    emailjs
-      .sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        form.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      )
-      .then(
-        () => {
-          setPopup({
-            show: true,
-            message: "Your message has been sent successfully! We'll get back to you within 24 hours.",
-            type: "success"
-          })
-          setFormData({ name: "", email: "", message: "" })
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        (error) => {
-          console.error("EmailJS Error:", error.text)
-          setPopup({
-            show: true,
-            message: "We apologize, but there was an error sending your message. Please try again or contact us directly.",
-            type: "error"
-          })
-        }
-      )
-      .finally(() => {
-        setIsSubmitting(false)
+        body: JSON.stringify(formData),
       })
+
+      if (response.ok) {
+        setPopup({
+          show: true,
+          message: "Your message has been sent successfully! We'll get back to you within 24 hours.",
+          type: "success"
+        })
+        setFormData({ name: "", email: "", message: "" })
+      } else {
+        const data = await response.json()
+        console.error("API Error:", data.error)
+        setPopup({
+          show: true,
+          message: data.error || "We apologize, but there was an error sending your message. Please try again or contact us directly.",
+          type: "error"
+        })
+      }
+    } catch (error) {
+      console.error("Fetch Error:", error)
+      setPopup({
+        show: true,
+        message: "We apologize, but there was an error sending your message. Please try again or contact us directly.",
+        type: "error"
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   useEffect(() => {
@@ -115,7 +119,7 @@ export default function ContactPage() {
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">Let's Talk</h2>
                 <div className="w-16 h-1 bg-green-400 mb-6"></div>
                 <p className="text-green-100 text-lg leading-relaxed">
-                  Whether you have questions about our farm-fresh products, need assistance with your order, 
+                  Whether you have questions about our farm-fresh products, need assistance with your order,
                   or want to learn more about our sustainable farming practices — we're here to help.
                 </p>
               </div>
@@ -127,11 +131,16 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Visit Us</h3>
-                    <p className="text-green-100">
+                    <a
+                      href="https://www.google.com/maps/search/?api=1&query=No+10+4th+floor+Gaduniya+Complex+Ramaiah+Layout+Vidyaranyapura+Bangalore+560097"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-green-100 hover:text-green-300 transition"
+                    >
                       No 10, 4th floor, Gaduniya Complex<br />
                       Ramaiah Layout, Vidyaranyapura<br />
                       Bangalore – 560097
-                    </p>
+                    </a>
                   </div>
                 </div>
 
@@ -166,20 +175,20 @@ export default function ContactPage() {
               <div>
                 <h3 className="font-semibold text-lg mb-4">Follow Our Journey</h3>
                 <div className="flex space-x-4">
-                  <a 
-                    href="https://www.instagram.com/farmharvesttohome/?next=%2F" 
+                  <a
+                    href="https://www.instagram.com/farmharvesttohome/?next=%2F"
                     className="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-colors"
                   >
                     <FaInstagram className="text-white text-xl" />
                   </a>
-                  <a 
-                    href="https://www.facebook.com/share/175Y72VCNJ/" 
+                  <a
+                    href="https://www.facebook.com/share/175Y72VCNJ/"
                     className="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-colors"
                   >
                     <FaFacebook className="text-white text-xl" />
                   </a>
-                  <a 
-                    href="https://www.youtube.com/@farmharvesttohome" 
+                  <a
+                    href="https://www.youtube.com/@farmharvesttohome"
                     className="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-colors"
                   >
                     <FaYoutube className="text-white text-xl" />
@@ -273,16 +282,16 @@ export default function ContactPage() {
       {popup.show && (
         <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
           {/* Backdrop */}
-          <div 
+          <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
             onClick={closePopup}
           ></div>
-          
+
           {/* Notification Card */}
           <div className="relative bg-white rounded-xl shadow-2xl max-w-md w-full overflow-hidden transform transition-all duration-300 scale-95 animate-scale-in">
             {/* Header with gradient */}
             <div className={`h-2 w-full ${popup.type === "success" ? 'bg-green-500' : 'bg-red-500'}`}></div>
-            
+
             {/* Content */}
             <div className="p-6">
               <div className="flex items-start">
@@ -294,7 +303,7 @@ export default function ContactPage() {
                     <FaTimesCircle className="h-6 w-6 text-red-600" />
                   )}
                 </div>
-                
+
                 {/* Message */}
                 <div className="ml-4 flex-1">
                   <h3 className={`text-lg font-semibold ${popup.type === "success" ? 'text-green-800' : 'text-red-800'}`}>
@@ -302,7 +311,7 @@ export default function ContactPage() {
                   </h3>
                   <p className="mt-1 text-gray-600 text-sm">{popup.message}</p>
                 </div>
-                
+
                 {/* Close Button */}
                 <button
                   onClick={closePopup}
@@ -312,16 +321,15 @@ export default function ContactPage() {
                 </button>
               </div>
             </div>
-            
+
             {/* Action Button */}
             <div className="px-6 py-4 bg-gray-50 flex justify-end">
               <button
                 onClick={closePopup}
-                className={`px-4 py-2 rounded-lg font-medium ${
-                  popup.type === "success" 
-                    ? "bg-green-600 hover:bg-green-700" 
-                    : "bg-red-600 hover:bg-red-700"
-                } text-white transition-colors`}
+                className={`px-4 py-2 rounded-lg font-medium ${popup.type === "success"
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "bg-red-600 hover:bg-red-700"
+                  } text-white transition-colors`}
               >
                 {popup.type === "success" ? "Continue" : "Try Again"}
               </button>

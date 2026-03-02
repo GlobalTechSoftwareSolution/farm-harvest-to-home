@@ -24,11 +24,20 @@ export async function POST(req: Request) {
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: order.customer_details.email,
-      subject: "Your order has been placed!",
+      subject: "Your order has been placed! - Farm Harvest to Home",
       html: `
         <h2>Thank you for your order, ${order.customer_details.name}!</h2>
-        <p>Order Total: ₹${order.total}</p>
-        <p>We will contact you shortly.</p>
+        <p>Your order for <strong>₹${order.total}</strong> has been received and is being processed.</p>
+        <h3>Order Summary:</h3>
+        <ul>
+          ${order.items.map((i: any) => `<li>${i.name} ${i.size ? `(${i.size})` : ''} x ${i.qty} - ₹${(i.price * i.qty).toFixed(2)}</li>`).join("")}
+        </ul>
+        <p><strong>Payment Method:</strong> ${order.customer_details.payment === 'cod' ? 'Cash on Delivery' : 'Online'}</p>
+        <p><strong>Delivery Address:</strong> ${order.customer_details.address}, ${order.customer_details.city}</p>
+        <p>We will contact you shortly on WhatsApp or phone to confirm the delivery details.</p>
+        <br/>
+        <p>Best regards,</p>
+        <p>Farm Harvest to Home Team</p>
       `,
     });
 

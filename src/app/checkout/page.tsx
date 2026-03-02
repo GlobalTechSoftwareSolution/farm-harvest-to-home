@@ -1,7 +1,6 @@
 "use client";
 
 import { createClient } from "@supabase/supabase-js";
-import emailjs from "@emailjs/browser";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { FiCheckCircle, FiShoppingBag, FiUser, FiPhone, FiMapPin, FiMessageSquare, FiCreditCard, FiChevronRight } from "react-icons/fi";
@@ -48,7 +47,7 @@ export default function CheckoutPage() {
     notes: "",
     paymentMethod: "cod",
   });
-    const states = [
+  const states = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
     "Assam",
@@ -99,7 +98,7 @@ export default function CheckoutPage() {
       return [];
     }
   }
-  
+
   function clearCart() {
     if (typeof window === "undefined") return;
     localStorage.removeItem(STORAGE_KEY);
@@ -109,64 +108,18 @@ export default function CheckoutPage() {
   // ---- email notification helper ----
   async function sendEmailNotification(order: any) {
     try {
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
-
-      // Customer email
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          to_email: form.email || order.customer_details.email,
-          from_name: "FarmHarvest",
-          subject: "Your Order Confirmation",
-          message: `
-          Hi ${order.customer_details.name},
-          
-          Thank you for your order! Here are your details:
-          
-          Order Total: ₹${order.total}
-          Payment: ${order.customer_details.payment}
-          
-          Items:
-          ${order.map((i:any)=>`${i.name} (${i.size || "N/A"}) x ${i.qty} = ₹${i.price * i.qty}`).join("\n")}
-          
-          Delivery Address:
-          ${order.customer_details.address}, ${order.customer_details.city}, ${order.customer_details.state} - ${order.customer_details.postcode}
-        `,
+      const response = await fetch("/api/place-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        publicKey
-      );
+        body: JSON.stringify({ order }),
+      });
 
-      // Company email
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          to_email: "orders@farmharvesttohome.com",
-          from_name: "FarmHarvest Website",
-          subject: "New Order Received",
-          message: `
-          New order received!
-          
-          Customer: ${order.customer_details.name}
-          Phone: ${order.customer_details.phone}
-          Email: ${order.customer_details.email}
-          
-          Total: ₹${order.total}
-          
-          Items:
-          ${order.items.map((i:any)=>`${i.name} (${i.size || "N/A"}) x ${i.qty} = ₹${i.price * i.qty}`).join("\n")}
-          
-          Address: ${order.customer_details.address}, ${order.customer_details.city}, ${order.customer_details.state} - ${order.customer_details.postcode}
-          
-          Notes: ${order.customer_details.notes || "N/A"}
-        `,
-        },
-        publicKey
-      );
-
+      if (!response.ok) {
+        throw new Error("Failed to send order emails via local API");
+      }
+      console.log("Order emails sent successfully via nodemailer");
     } catch (err) {
       console.error("Email notification failed:", err);
     }
@@ -261,7 +214,7 @@ export default function CheckoutPage() {
           <p className="text-gray-600 mb-6">
             Thank you for your order. We'll contact you shortly on WhatsApp to confirm your order details.
           </p>
-          <Link 
+          <Link
             href="/placeorderdetails"
             className="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300"
           >
@@ -293,7 +246,7 @@ export default function CheckoutPage() {
           <p className="text-gray-600 mb-6">
             Add some products to your cart before checking out.
           </p>
-          <Link 
+          <Link
             href="/shop"
             className="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300"
           >
@@ -391,25 +344,25 @@ export default function CheckoutPage() {
                       required
                     />
                   </div>
-                <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        State *
-                      </label>
-                      <select
-                        name="state"
-                        value={form.state}
-                        onChange={(e) => setForm({ ...form, state: e.target.value })}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        required
-                      >
-                        <option value="">-- Select State --</option>
-                        {states.map((state) => (
-                          <option key={state} value={state}>
-                            {state}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      State *
+                    </label>
+                    <select
+                      name="state"
+                      value={form.state}
+                      onChange={(e) => setForm({ ...form, state: e.target.value })}
+                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      required
+                    >
+                      <option value="">-- Select State --</option>
+                      {states.map((state) => (
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Postal Code *</label>
@@ -482,13 +435,13 @@ export default function CheckoutPage() {
             <div className="md:col-span-1">
               <div className="bg-white rounded-xl shadow-sm p-6 sticky top-6">
                 <h2 className="text-xl font-semibold mb-6">Order Summary</h2>
-                
+
                 <div className="space-y-4 mb-6 max-h-80 overflow-y-auto">
                   {cart.map((item) => (
                     <div key={item.id} className="flex items-center border-b pb-4">
                       <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                        <img 
-                          src={item.image || "/placeholder-product.jpg"} 
+                        <img
+                          src={item.image || "/placeholder-product.jpg"}
                           alt={item.name}
                           className="w-full h-full object-cover"
                         />
@@ -538,7 +491,7 @@ export default function CheckoutPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fade-in">
           <div className="bg-white rounded-xl p-6 max-w-md w-full animate-scale-in">
             <h2 className="text-xl font-bold mb-4">Confirm Your Order</h2>
-            
+
             <div className="mb-6 space-y-3">
               <div className="flex items-center">
                 <FiUser className="text-gray-500 mr-2" />
@@ -579,12 +532,12 @@ export default function CheckoutPage() {
                 </div>
               ))}
             </div>
-            
+
             <div className="flex justify-between font-bold mb-4">
               <span>Total:</span>
               <span className="text-green-600">₹{total.toFixed(2)}</span>
             </div>
-            
+
             <div className="flex justify-end gap-3">
               <button
                 type="button"

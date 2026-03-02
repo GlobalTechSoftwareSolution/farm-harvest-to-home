@@ -7,11 +7,11 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 pt-12 pb-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-6">
-        
+
         {/* Brand */}
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <Image 
+            <Image
               src="/images/farm.png"
               alt="Farmer"
               width={60}
@@ -42,9 +42,14 @@ export default function Footer() {
             </div>
             <div className="flex items-start gap-2">
               <Image src="/images/location.png" alt="Location" width={20} height={20} className="mt-1" />
-              <span>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=No+10+4th+floor+Gaduniya+Complex+Ramaiah+Layout+Vidyaranyapura+Bangalore+560097"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-green-500 transition"
+              >
                 No 10, 4th Floor, Gaduniya Complex, Ramaiah Layout, Vidyaranyapura, Bangalore - 560097
-              </span>
+              </a>
             </div>
           </div>
         </div>
