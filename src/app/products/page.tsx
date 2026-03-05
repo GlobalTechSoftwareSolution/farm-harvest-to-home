@@ -41,7 +41,7 @@ export default function ProductsPage() {
   // Price filter: single max price slider
   const [maxPrice, setMaxPrice] = useState<number>(1000);
   const [selectedProducts, setSelectedProducts] = useState<Set<number>>(new Set());
-  const [selectedWeights, setSelectedWeights] = useState<{[key: number]: string}>({});
+  const [selectedWeights, setSelectedWeights] = useState<{ [key: number]: string }>({});
   const [showWeightPopup, setShowWeightPopup] = useState<number | null>(null);
   const [addingToCart, setAddingToCart] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -68,18 +68,18 @@ export default function ProductsPage() {
           setProducts([]);
         } else {
           // Transform the data to match our Product type
-         const transformedData: Product[] = (data || []).map((product: any) => ({
-  ...product,
-  product_categories: (product.product_categories || []).map((pc: any) => ({
-    categories: (pc.categories || []).map((c: any) => ({
-      id: Number(c.id),
-      name: String(c.name),
-      slug: String(c.slug),
-    })),
-  })),
-}));
- 
-          
+          const transformedData: Product[] = (data || []).map((product: any) => ({
+            ...product,
+            product_categories: (product.product_categories || []).map((pc: any) => ({
+              categories: (pc.categories || []).map((c: any) => ({
+                id: Number(c.id),
+                name: String(c.name),
+                slug: String(c.slug),
+              })),
+            })),
+          }));
+
+
           setProducts(transformedData);
 
           // Extract unique categories from nested product_categories
@@ -131,23 +131,23 @@ export default function ProductsPage() {
       "Proso Millet.webp", "ROASTED CHANNA DAL.webp", "Ragi Millet.webp", "TOOR DAL.webp", "TURMERIC POWDER.webp",
       "URAD GOTA.webp", "White Sesame Seeds.webp", "pepper.webp"
     ];
-    
+
     // If there's a direct image_url that starts with http, use it
     if (product.image_url && product.image_url.startsWith("http")) {
       return product.image_url;
     }
-    
+
     // If there's an image_url that starts with /pictures, use it
     if (product.image_url && product.image_url.startsWith("/pictures")) {
       return product.image_url;
     }
-    
+
     // Try images array if available
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
       const firstImg = product.images[0];
       if (firstImg.src) return firstImg.src;
     }
-    
+
     // Try to find exact match in available images
     if (product.name) {
       // Special mappings FIRST (before other checks) - more flexible matching
@@ -169,9 +169,9 @@ export default function ProductsPage() {
         "GUNTER": "Guntur Red Chilli.webp",
         "ORGANIC GREEN GRAM": "OGRANIC GREEN GRAM.webp"
       };
-      
+
       const upperProductName = product.name.toUpperCase().trim();
-      
+
       // Check for exact match
       if (specialMappings[upperProductName]) {
         const mappedImage = specialMappings[upperProductName];
@@ -181,46 +181,46 @@ export default function ProductsPage() {
         }
         return `/pictures/${mappedImage}`;
       }
-      
+
       // Additional checks for PADDY/RICE (more flexible)
       if (upperProductName.includes("PADDY") || upperProductName.includes("RICE")) {
         return "/images/rice.jpeg";
       }
-      
+
       // Additional checks for PERSO/PROSO (more flexible)
       if (upperProductName.includes("PERSO") || upperProductName.includes("PROSO")) {
         return "/pictures/Proso Millet.webp";
       }
-      
+
       // Additional checks for GUNTUR (more flexible)
       if (upperProductName.includes("GUNTUR") || upperProductName.includes("GUNTER")) {
         return "/pictures/Guntur Red Chilli.webp";
       }
-      
+
       // Check if product name contains URAD
       if (upperProductName.includes("URAD")) {
         return "/pictures/URAD GOTA.webp";
       }
-      
+
       // First try exact match (case insensitive)
-      const exactMatch = availableImages.find(img => 
+      const exactMatch = availableImages.find(img =>
         img.toLowerCase() === product.name.toLowerCase() + ".webp"
       );
       if (exactMatch) return `/pictures/${exactMatch}`;
-      
+
       // Try partial match (contains)
-      const partialMatch = availableImages.find(img => 
-        img.toLowerCase().includes(product.name.toLowerCase()) || 
+      const partialMatch = availableImages.find(img =>
+        img.toLowerCase().includes(product.name.toLowerCase()) ||
         product.name.toLowerCase().includes(img.toLowerCase().replace('.webp', ''))
       );
       if (partialMatch) return `/pictures/${partialMatch}`;
-      
+
       // Default fallback to a generic image if available
       if (availableImages.includes("pepper.webp")) {
         return "/pictures/pepper.webp";
       }
     }
-    
+
     // Return undefined instead of null to satisfy TypeScript img src type
     return undefined;
   };
@@ -229,8 +229,8 @@ export default function ProductsPage() {
   const filteredByCategory = selectedCategory === "all"
     ? products
     : products.filter(product =>
-        product.product_categories?.some(pc => pc.categories.slug === selectedCategory)
-      );
+      product.product_categories?.some(pc => pc.categories.slug === selectedCategory)
+    );
 
   // Filter by category group
   const filteredByCategoryGroup = selectedCategoryGroup === "all"
@@ -240,9 +240,9 @@ export default function ProductsPage() {
   // Filter products by search query
   const filteredBySearch = search
     ? filteredByCategoryGroup.filter(product =>
-        product.name.toLowerCase().includes(search.toLowerCase()) ||
-        (product.description && product.description.toLowerCase().includes(search.toLowerCase()))
-      )
+      product.name.toLowerCase().includes(search.toLowerCase()) ||
+      (product.description && product.description.toLowerCase().includes(search.toLowerCase()))
+    )
     : filteredByCategoryGroup;
 
   // Filter products by price slider
@@ -320,7 +320,7 @@ export default function ProductsPage() {
       name: product.name,
       price,
       size: selectedWeight || "default",
-      image: product.image_url || "",
+      image: getImageUrl(product) || "",
       quantity: 1,
       category_group: product.category_group,
     };
@@ -353,7 +353,7 @@ export default function ProductsPage() {
             <h1 className="text-3xl font-bold text-gray-800 mb-2">Our Fresh Products</h1>
             <p className="text-gray-600">Discover farm-fresh goodness delivered to your doorstep</p>
           </div>
-          
+
           {/* Desktop Search Bar */}
           <div className="hidden md:flex items-center">
             <div className="relative flex-1 mr-4">
@@ -367,7 +367,7 @@ export default function ProductsPage() {
               />
             </div>
           </div>
-          
+
           {/* Mobile Filter Toggle */}
           <button
             onClick={() => setShowMobileFilters(!showMobileFilters)}
@@ -438,17 +438,16 @@ export default function ProductsPage() {
           <div className="hidden md:block w-full md:w-64 flex-shrink-0">
             <div className="bg-white rounded-lg shadow-sm p-5 sticky top-24">
               {/* Category Filter */}
-             
+
               <div className="space-y-2 mb-6">
                 {categories.map(category => (
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.slug)}
-                    className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-200 ${
-                      selectedCategory === category.slug
+                    className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-200 ${selectedCategory === category.slug
                         ? "bg-green-600 text-white shadow-md"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {category.name}
                   </button>
@@ -462,11 +461,10 @@ export default function ProductsPage() {
               <div className="space-y-2 mb-6">
                 <button
                   onClick={() => setSelectedCategoryGroup("all")}
-                  className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-200 ${
-                    selectedCategoryGroup === "all"
+                  className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-200 ${selectedCategoryGroup === "all"
                       ? "bg-green-600 text-white shadow-md"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
+                    }`}
                 >
                   All Groups
                 </button>
@@ -474,11 +472,10 @@ export default function ProductsPage() {
                   <button
                     key={group}
                     onClick={() => setSelectedCategoryGroup(group)}
-                    className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-200 ${
-                      selectedCategoryGroup === group
+                    className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-200 ${selectedCategoryGroup === group
                         ? "bg-green-600 text-white shadow-md"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {group}
                   </button>
@@ -581,9 +578,8 @@ export default function ProductsPage() {
                   return (
                     <div
                       key={product.id}
-                      className={`bg-white rounded-xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg opacity-0 animate-fade-slide ${
-                        isSelected ? 'ring-2 ring-green-500 transform scale-105' : 'hover:-translate-y-1'
-                      }`}
+                      className={`bg-white rounded-xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg opacity-0 animate-fade-slide ${isSelected ? 'ring-2 ring-green-500 transform scale-105' : 'hover:-translate-y-1'
+                        }`}
                       style={{ animationDelay: `${i * 0.1}s` }}
                     >
                       {/* Product Image */}
@@ -655,13 +651,12 @@ export default function ProductsPage() {
                           <button
                             onClick={(e) => handleBuyNowClick(product.id, e)}
                             disabled={isAdding}
-                            className={`flex-1 py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center ${
-                              isAdding
+                            className={`flex-1 py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center ${isAdding
                                 ? 'bg-gray-400 cursor-not-allowed'
                                 : isSelected
                                   ? 'bg-green-600 hover:bg-green-700 text-white shadow-md'
                                   : 'bg-green-500 hover:bg-green-600 text-white shadow-md hover:shadow-lg'
-                            }`}
+                              }`}
                           >
                             {isAdding ? (
                               <span className="flex items-center justify-center">
@@ -728,23 +723,22 @@ export default function ProductsPage() {
                 Select Weight
               </h3>
               <p className="text-gray-600 mb-6">Choose your preferred size for this product:</p>
-              
+
               <div className="grid grid-cols-2 gap-3 mb-6">
                 {getAvailableWeights(products.find(p => p.id === showWeightPopup) as Product).map((weight: string) => (
                   <button
                     key={weight}
                     onClick={() => handleWeightChange(showWeightPopup!, weight)}
-                    className={`p-4 border-2 rounded-xl text-center transition-all duration-200 font-medium ${
-                      selectedWeights[showWeightPopup!] === weight
+                    className={`p-4 border-2 rounded-xl text-center transition-all duration-200 font-medium ${selectedWeights[showWeightPopup!] === weight
                         ? 'bg-green-100 text-green-700 border-green-500 shadow-md'
                         : 'bg-white text-gray-700 border-gray-300 hover:border-green-400 hover:bg-green-50'
-                    }`}
+                      }`}
                   >
                     {weight}
                   </button>
                 ))}
               </div>
-              
+
               <div className="flex justify-end space-x-3">
                 <button
                   onClick={closeWeightPopup}
@@ -782,7 +776,7 @@ export default function ProductsPage() {
                         name: product.name,
                         price,
                         size: selectedWeight || "default",
-                        image: product.image_url || "",
+                        image: getImageUrl(product) || "",
                         quantity: 1,
                         category_group: product.category_group,
                       };
@@ -801,11 +795,10 @@ export default function ProductsPage() {
                     }
                   }}
                   disabled={!selectedWeights[showWeightPopup]}
-                  className={`px-5 py-2 rounded-lg text-white transition-colors duration-200 flex items-center ${
-                    selectedWeights[showWeightPopup]
+                  className={`px-5 py-2 rounded-lg text-white transition-colors duration-200 flex items-center ${selectedWeights[showWeightPopup]
                       ? 'bg-green-600 hover:bg-green-700 shadow-md'
                       : 'bg-gray-400 cursor-not-allowed'
-                  }`}
+                    }`}
                 >
                   <FaShoppingCart className="mr-2" />
                   Add to Cart
@@ -831,7 +824,7 @@ export default function ProductsPage() {
                   Clear All
                 </button>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                 {Array.from(selectedProducts).slice(0, 3).map(productId => {
                   const product = products.find(p => p.id === productId);
@@ -861,8 +854,8 @@ export default function ProductsPage() {
                   </div>
                 )}
               </div>
-              
-              <Link 
+
+              <Link
                 href="/cart"
                 className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors duration-300 text-center block font-semibold shadow-md"
               >

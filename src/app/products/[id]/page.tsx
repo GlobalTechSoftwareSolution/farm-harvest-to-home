@@ -25,12 +25,37 @@ export default function ProductDetails() {
   const [showWeightPopup, setShowWeightPopup] = useState(false);
 
   const getImageUrl = (product: Product) => {
+    // If it's a full URL, use it
     if (product.image_url && product.image_url.startsWith("http")) return product.image_url;
-    if (product.image_url) return `${window.location.origin}/${product.image_url}`;
+
+    // If it already has the /pictures/ prefix, return it as a relative path
+    if (product.image_url && product.image_url.startsWith("/pictures/")) return product.image_url;
+    if (product.image_url && product.image_url.startsWith("pictures/")) return `/${product.image_url}`;
+
+    // If it's just a filename, prepend /pictures/
+    if (product.image_url) {
+      // Check if it's already a path or just a filename
+      if (!product.image_url.includes("/")) {
+        return `/pictures/${product.image_url.trim()}`;
+      }
+      return `/${product.image_url.replace(/^\//, '')}`;
+    }
+
+    // Handle images array
     if (product.images && Array.isArray(product.images) && product.images.length > 0) {
       const firstImg = product.images[0];
-      if (firstImg.src) return firstImg.src.startsWith("http") ? firstImg.src : `${window.location.origin}/${firstImg.src}`;
+      if (firstImg.src) {
+        if (firstImg.src.startsWith("http")) return firstImg.src;
+        if (firstImg.src.startsWith("/pictures/") || firstImg.src.startsWith("pictures/")) {
+          return firstImg.src.startsWith("/") ? firstImg.src : `/${firstImg.src}`;
+        }
+        if (!firstImg.src.includes("/")) {
+          return `/pictures/${firstImg.src.trim()}`;
+        }
+        return `/${firstImg.src.replace(/^\//, '')}`;
+      }
     }
+
     return "/placeholder-product.jpg";
   };
 
@@ -69,7 +94,7 @@ export default function ProductDetails() {
       price: priceToUse,
       quantity: 1,
       size: weightLabel || null,
-      image: product.image_url || (product.images && product.images[0]?.src) || "/placeholder-product.jpg",
+      image: imageUrl || "/placeholder-product.jpg",
     };
     const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
     const existingIndex = existingCart.findIndex(
