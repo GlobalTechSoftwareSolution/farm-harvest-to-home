@@ -73,7 +73,7 @@ export default function PrivacyPolicy() {
       id: "contact",
       title: "10. Contact Us",
       text: `For questions about this Privacy Policy, reach us at:  
-      📧 Email: farmharvest@gmail.com  
+      📧 Email: farmharvesttohome@gmail.com  
       📞 Phone: +91-9844281875`
     }
   ]

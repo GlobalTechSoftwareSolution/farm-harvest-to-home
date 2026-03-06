@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     q: "How can I contact customer support?",
-    a: "You can call us at +91-9844281875 or email us at farmharvest@gmail.com for any support or inquiries."
+    a: "You can call us at +91-9844281875 or email us at farmharvesttohome@gmail.com for any support or inquiries."
   }
 ]
 
@@ -58,6 +58,7 @@ export default function FAQSection() {
         <p className="text-gray-600 text-center mb-10">
           Everything you need to know about Farm Harvest To Home.
         </p>
+        <p className="text-gray-600 text-center mb-10">📧 Email: <a href="mailto:farmharvesttohome@gmail.com" className="hover:text-green-600 transition">farmharvesttohome@gmail.com</a></p>
 
         <div className="space-y-4">
           {faqs.map((faq, index) => (

@@ -20,7 +20,7 @@ export async function POST(req: Request) {
         // Email to company
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
-            to: 'farmharvest@gmail.com', // As seen in contact page
+            to: 'farmharvesttohome@gmail.com', // As seen in contact page
             subject: `New Contact Message from ${name}`,
             html: `
         <h2>New Contact Inquiry</h2>

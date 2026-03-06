@@ -1,4 +1,3 @@
-"use client"
 import Link from "next/link"
 import { FaFacebook, FaInstagram, FaTwitter, FaWhatsapp } from "react-icons/fa"
 import Image from "next/image"
@@ -34,10 +33,10 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <Image src="/images/email.png" alt="Email" width={20} height={20} />
               <a
-                href="mailto:farmharvest@gmail.com"
+                href="mailto:farmharvesttohome@gmail.com"
                 className="hover:text-green-500 transition"
               >
-                farmharvest@gmail.com
+                farmharvesttohome@gmail.com
               </a>
             </div>
             <div className="flex items-start gap-2">

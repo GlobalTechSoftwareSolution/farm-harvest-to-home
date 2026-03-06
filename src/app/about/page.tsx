@@ -2,8 +2,8 @@
 
 import { supabase } from "@/app/lib/supabaseClient";
 import Image from "next/image"
-import { useRouter, usePathname  } from "next/navigation"
-import { useState, useEffect} from "react" // adjust path if different
+import { useRouter, usePathname } from "next/navigation"
+import { useState, useEffect } from "react" // adjust path if different
 
 export default function About() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,19 +25,19 @@ export default function About() {
   const isLoggedIn = !!supabase || !!supabaseUser;
 
   // unified handler
-const handleShopNow = (e: React.MouseEvent) => {
-  e.preventDefault();
+  const handleShopNow = (e: React.MouseEvent) => {
+    e.preventDefault();
 
-  if (!isLoggedIn) {
-    // Supabase login flow
-    router.push("/login?redirect=/shop");
-  } else {
-    // Already logged in → go directly
-    router.push("/shop");
-  }
+    if (!isLoggedIn) {
+      // Supabase login flow
+      router.push("/login?redirect=/shop");
+    } else {
+      // Already logged in → go directly
+      router.push("/shop");
+    }
 
-  setIsOpen(false); // close mobile menu if open
-};
+    setIsOpen(false); // close mobile menu if open
+  };
 
 
   return (
@@ -66,7 +66,7 @@ const handleShopNow = (e: React.MouseEvent) => {
               />
             </div>
           </div>
-          
+
           {/* Text on right */}
           <div className="w-full md:w-1/2">
             <h2 className="text-2xl md:text-3xl font-semibold text-green-800 mb-6">
@@ -81,7 +81,7 @@ const handleShopNow = (e: React.MouseEvent) => {
                 appearance is a loss of nutrition, flavor, and most importantly, safety.
               </p>
               <p className="font-medium text-green-700">
-                We started Farm Harvest To Home with a simple mission:  
+                We started Farm Harvest To Home with a simple mission:
                 Bring clean, chemical-free food straight from our farmers to your plate.
               </p>
             </div>
@@ -92,7 +92,7 @@ const handleShopNow = (e: React.MouseEvent) => {
       {/* WHY TO CHOOSE US */}
       <section className="mb-16 md:mb-20">
         <h2 className="text-3xl font-semibold text-gray-900 text-center mb-12">Why Choose Us?</h2>
-        
+
         <div className="grid md:grid-cols-2 gap-8">
           {/* Card 1 */}
           <div className="bg-white p-6 rounded-xl shadow-md border border-green-100">
@@ -184,7 +184,7 @@ const handleShopNow = (e: React.MouseEvent) => {
               />
             </div>
           </div>
-          
+
           {/* Text on left */}
           <div className="w-full md:w-1/2">
             <h2 className="text-2xl md:text-3xl font-semibold text-green-800 mb-6">
@@ -224,7 +224,7 @@ const handleShopNow = (e: React.MouseEvent) => {
       <div className="w-full mb-16">
         <div className="rounded-2xl overflow-hidden shadow-lg">
           <Image
-            src="/images/wheat.webp"
+            src="/about/wheat.webp"
             alt="Organic wheat from our farms"
             width={800}
             height={400}
@@ -234,131 +234,131 @@ const handleShopNow = (e: React.MouseEvent) => {
       </div>
 
       {/* Market vs Farm Harvest */}
-   <section className="mb-20 px-4 md:px-8 py-12 bg-gradient-to-b from-gray-50 to-white">
-  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-14 tracking-tight">
-    Market Products vs Our Products
-  </h2>
+      <section className="mb-20 px-4 md:px-8 py-12 bg-gradient-to-b from-gray-50 to-white">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-14 tracking-tight">
+          Market Products vs Our Products
+        </h2>
 
-  <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-    {/* Market Products */}
-    <div className="bg-gradient-to-b from-red-50 to-white p-8 rounded-2xl border-2 border-red-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-      <div className="flex items-center justify-center mb-8">
-        <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-        </div>
-        <h3 className="text-2xl font-bold text-red-700">
-          Market Products
-        </h3>
-      </div>
-      
-      <ol className="space-y-8 text-gray-700 leading-relaxed">
-        {[
-          {
-            title: "Processing & Appearance",
-            content: "These grains go through heavy processing, which removes the outer bran and germ layers. As a result, they appear smooth and shiny, but they lose a lot of their natural value. Examples include white rice and refined wheat flour.",
-            icon: "⚙️"
-          },
-          {
-            title: "Nutritional Value",
-            content: "Polished grains lose many essential nutrients during the refining process. This includes important fiber, B-complex vitamins, and minerals like iron and magnesium. As a result, these grains are mostly made up of starch. This can lead to faster digestion and a higher glycemic index, which may cause spikes in blood sugar levels. Moreover, the lack of fiber can reduce the feeling of fullness, which might lead to overeating.",
-            icon: "📉"
-          },
-          {
-            title: "Health Benefits",
-            content: "While easy to digest, they provide fewer benefits. Low fiber and nutrients increase risks of weight gain, diabetes, and poor digestion.",
-            icon: "🏥"
-          },
-          {
-            title: "Digestibility & Gut Health",
-            content: "Because these grains contain little fiber, these grains can cause constipation and slow digestion. The high starch content may also cause bloating or discomfort.",
-            icon: "🤢"
-          },
-          {
-            title: "Environmental Impact",
-            content: "These are usually grown with the use of chemical fertilizers and pesticides. Additionally, their production consumes more water and energy due to milling and refining processes.",
-            icon: "🌍"
-          }
-        ].map((item, index) => (
-          <li key={index} className="relative pl-10">
-            <div className="absolute left-0 top-0 w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-              <span className="text-red-600">{item.icon}</span>
+        <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+          {/* Market Products */}
+          <div className="bg-gradient-to-b from-red-50 to-white p-8 rounded-2xl border-2 border-red-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="flex items-center justify-center mb-8">
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-red-700">
+                Market Products
+              </h3>
             </div>
-            <h4 className="font-semibold text-red-800 mb-2 text-lg">
-              {item.title}
-            </h4>
-            <p className="text-gray-600">
-              {item.content}
-            </p>
-          </li>
-        ))}
-      </ol>
-    </div>
 
-    {/* Our Products */}
-    <div className="bg-gradient-to-b from-green-50 to-white p-8 rounded-2xl border-2 border-green-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-      <div className="flex items-center justify-center mb-8">
-        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <h3 className="text-2xl font-bold text-green-700">
-          Farm Harvest To Home Products
-        </h3>
-      </div>
-      
-      <ol className="space-y-8 text-gray-700 leading-relaxed">
-        {[
-          {
-            title: "Processing & Appearance",
-            content: "Our grains are minimally processed, keeping the bran, germ, and endosperm intact. They retain a natural, rough texture and a duller color — a sign of purity, not polish. Examples include brown rice, whole wheat, millets, and hand-pounded rice. Most importantly, they are chemical-free and naturally healthy.",
-            icon: "🌾"
-          },
-          {
-            title: "Nutritional Value",
-            content: "In contrast, our farm-fresh grains and pulses are rich in fiber, antioxidants, and essential nutrients such as vitamins B1, B3, and B6, as well as iron and zinc. Thanks to their slow-digesting nature, they help you stay full longer and support better blood sugar control. Additionally, the high fiber content helps improve digestion.",
-            icon: "📈"
-          },
-          {
-            title: "Health Benefits",
-            content: "On the other hand, our grains help support heart health, better digestion, and blood sugar control. Their high fiber content contributes to overall wellness and long-term health.",
-            icon: "💚"
-          },
-          {
-            title: "Digestibility & Gut Health",
-            content: "Thanks to their fiber-rich nature, our grains support the growth of healthy gut bacteria. They also act as a natural prebiotic, promoting a strong and balanced digestive system.",
-            icon: "👍"
-          },
-          {
-            title: "Environmental Impact",
-            content: "Our grains are cultivated using traditional or organic farming methods. Because they undergo minimal processing, they have a lower carbon footprint and are more eco-friendly.",
-            icon: "🌱"
-          }
-        ].map((item, index) => (
-          <li key={index} className="relative pl-10">
-            <div className="absolute left-0 top-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-              <span className="text-green-600">{item.icon}</span>
+            <ol className="space-y-8 text-gray-700 leading-relaxed">
+              {[
+                {
+                  title: "Processing & Appearance",
+                  content: "These grains go through heavy processing, which removes the outer bran and germ layers. As a result, they appear smooth and shiny, but they lose a lot of their natural value. Examples include white rice and refined wheat flour.",
+                  icon: "⚙️"
+                },
+                {
+                  title: "Nutritional Value",
+                  content: "Polished grains lose many essential nutrients during the refining process. This includes important fiber, B-complex vitamins, and minerals like iron and magnesium. As a result, these grains are mostly made up of starch. This can lead to faster digestion and a higher glycemic index, which may cause spikes in blood sugar levels. Moreover, the lack of fiber can reduce the feeling of fullness, which might lead to overeating.",
+                  icon: "📉"
+                },
+                {
+                  title: "Health Benefits",
+                  content: "While easy to digest, they provide fewer benefits. Low fiber and nutrients increase risks of weight gain, diabetes, and poor digestion.",
+                  icon: "🏥"
+                },
+                {
+                  title: "Digestibility & Gut Health",
+                  content: "Because these grains contain little fiber, these grains can cause constipation and slow digestion. The high starch content may also cause bloating or discomfort.",
+                  icon: "🤢"
+                },
+                {
+                  title: "Environmental Impact",
+                  content: "These are usually grown with the use of chemical fertilizers and pesticides. Additionally, their production consumes more water and energy due to milling and refining processes.",
+                  icon: "🌍"
+                }
+              ].map((item, index) => (
+                <li key={index} className="relative pl-10">
+                  <div className="absolute left-0 top-0 w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                    <span className="text-red-600">{item.icon}</span>
+                  </div>
+                  <h4 className="font-semibold text-red-800 mb-2 text-lg">
+                    {item.title}
+                  </h4>
+                  <p className="text-gray-600">
+                    {item.content}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          {/* Our Products */}
+          <div className="bg-gradient-to-b from-green-50 to-white p-8 rounded-2xl border-2 border-green-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="flex items-center justify-center mb-8">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-green-700">
+                Farm Harvest To Home Products
+              </h3>
             </div>
-            <h4 className="font-semibold text-green-800 mb-2 text-lg">
-              {item.title}
-            </h4>
-            <p className="text-gray-600">
-              {item.content}
-            </p>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </div>
-</section>
 
-      
+            <ol className="space-y-8 text-gray-700 leading-relaxed">
+              {[
+                {
+                  title: "Processing & Appearance",
+                  content: "Our grains are minimally processed, keeping the bran, germ, and endosperm intact. They retain a natural, rough texture and a duller color — a sign of purity, not polish. Examples include brown rice, whole wheat, millets, and hand-pounded rice. Most importantly, they are chemical-free and naturally healthy.",
+                  icon: "🌾"
+                },
+                {
+                  title: "Nutritional Value",
+                  content: "In contrast, our farm-fresh grains and pulses are rich in fiber, antioxidants, and essential nutrients such as vitamins B1, B3, and B6, as well as iron and zinc. Thanks to their slow-digesting nature, they help you stay full longer and support better blood sugar control. Additionally, the high fiber content helps improve digestion.",
+                  icon: "📈"
+                },
+                {
+                  title: "Health Benefits",
+                  content: "On the other hand, our grains help support heart health, better digestion, and blood sugar control. Their high fiber content contributes to overall wellness and long-term health.",
+                  icon: "💚"
+                },
+                {
+                  title: "Digestibility & Gut Health",
+                  content: "Thanks to their fiber-rich nature, our grains support the growth of healthy gut bacteria. They also act as a natural prebiotic, promoting a strong and balanced digestive system.",
+                  icon: "👍"
+                },
+                {
+                  title: "Environmental Impact",
+                  content: "Our grains are cultivated using traditional or organic farming methods. Because they undergo minimal processing, they have a lower carbon footprint and are more eco-friendly.",
+                  icon: "🌱"
+                }
+              ].map((item, index) => (
+                <li key={index} className="relative pl-10">
+                  <div className="absolute left-0 top-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                    <span className="text-green-600">{item.icon}</span>
+                  </div>
+                  <h4 className="font-semibold text-green-800 mb-2 text-lg">
+                    {item.title}
+                  </h4>
+                  <p className="text-gray-600">
+                    {item.content}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+
       {/* Services */}
       <section className="mb-16 md:mb-20">
         <h2 className="text-3xl font-semibold text-gray-900 text-center mb-12">Our Services</h2>
-        
+
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-white p-6 rounded-xl shadow-md border border-green-100">
             <div className="text-green-700 text-4xl font-bold mb-4">01</div>
@@ -368,7 +368,7 @@ const handleShopNow = (e: React.MouseEvent) => {
               directly from small and tribal farmers.
             </p>
           </div>
-          
+
           <div className="bg-white p-6 rounded-xl shadow-md border border-green-100">
             <div className="text-green-700 text-4xl font-bold mb-4">02</div>
             <h3 className="font-bold text-xl text-green-700 mb-3">Customized Bulk Orders</h3>
@@ -376,7 +376,7 @@ const handleShopNow = (e: React.MouseEvent) => {
               Restaurants, cafés, kirana stores, and housing societies can get flexible quantities with eco-friendly packaging.
             </p>
           </div>
-          
+
           <div className="bg-white p-6 rounded-xl shadow-md border border-green-100">
             <div className="text-green-700 text-4xl font-bold mb-4">03</div>
             <h3 className="font-bold text-xl text-green-700 mb-3">Eco-Friendly Product Packaging</h3>
@@ -384,7 +384,7 @@ const handleShopNow = (e: React.MouseEvent) => {
               Food-safe pouches, paper bags, and custom branding. No plastic, no chemicals.
             </p>
           </div>
-          
+
           <div className="bg-white p-6 rounded-xl shadow-md border border-green-100">
             <div className="text-green-700 text-4xl font-bold mb-4">04</div>
             <h3 className="font-bold text-xl text-green-700 mb-3">Farmer Partnership Program</h3>
@@ -441,7 +441,7 @@ const handleShopNow = (e: React.MouseEvent) => {
       <section className="bg-green-800 text-white rounded-2xl p-8 md:p-10 text-center">
         <h2 className="text-2xl md:text-3xl font-semibold mb-4">Ready to Experience Farm-Fresh Goodness?</h2>
         <p className="text-green-100 mb-8 max-w-2xl mx-auto">
-          Join thousands of satisfied customers who have made the switch to chemical-free, 
+          Join thousands of satisfied customers who have made the switch to chemical-free,
           nutrient-rich foods straight from our farms to your home.
         </p>
       </section>
