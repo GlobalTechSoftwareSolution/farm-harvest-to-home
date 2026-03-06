@@ -14,7 +14,7 @@ export default function TermsAndConditions() {
     { id: "ip", title: "7. Intellectual Property", text: `All website content, branding, images, and designs belong to Farm Harvest to Home. No content may be copied or reused without written permission.` },
     { id: "liability", title: "8. Limitation of Liability", text: `We are not responsible for indirect, incidental, or consequential damages from using our products or site. Our maximum liability shall not exceed the order value.` },
     { id: "law", title: "9. Governing Law", text: `These Terms & Conditions are governed by the laws of India. Any disputes shall be subject to the jurisdiction of courts in [Your City/State].` },
-    { id: "contact", title: "10. Contact Us", text: `For any queries, reach us at:\n📧 Email: farmharvesttohome@gmail.com\n📞 Phone: +91-9844281875` }
+    { id: "contact", title: "10. Contact Us", text: `For any queries, reach us at:\n📧 Email: farmharvesttohome@gmail.com\n📞 Phone: +91-8495862494` }
   ]
 
   const [menuOpen, setMenuOpen] = useState(false)

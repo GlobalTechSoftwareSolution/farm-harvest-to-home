@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     q: "How can I contact customer support?",
-    a: "You can call us at +91-9844281875 or email us at farmharvesttohome@gmail.com for any support or inquiries."
+    a: "You can call us at +91-8495862494 or email us at farmharvesttohome@gmail.com for any support or inquiries."
   }
 ]
 
@@ -104,7 +104,7 @@ export default function FAQSection() {
             Still have questions? We’d love to help you.
           </p>
           <a
-            href="https://wa.me/919844281875"
+            href="https://wa.me/918495862494"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow hover:bg-green-700 transition"

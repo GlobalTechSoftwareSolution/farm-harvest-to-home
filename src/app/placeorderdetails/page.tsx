@@ -350,7 +350,7 @@ export default function PlaceOrderDetails() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <a
-              href="tel:+919844281875"
+              href="tel:+918495862494"
               className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
             >
               <div className="flex items-center">
@@ -368,7 +368,7 @@ export default function PlaceOrderDetails() {
             </a>
 
             <a
-              href="https://wa.me/919844281875?text=Hi%20I%20need%20help%20with%20my%20order"
+              href="https://wa.me/918495862494?text=Hi%20I%20need%20help%20with%20my%20order"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"

@@ -26,8 +26,8 @@ export default function Footer() {
           <div className="space-y-3 text-sm text-gray-300">
             <div className="flex items-center gap-2">
               <Image src="/images/phone.png" alt="Phone" width={20} height={20} />
-              <a href="tel:+919844281875" className="hover:text-green-500 transition">
-                +91-9844281875
+              <a href="tel:+918495862494" className="hover:text-green-500 transition">
+                +91-8495862494
               </a>
             </div>
             <div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ export default function Footer() {
           <div className="flex space-x-4 text-xl">
             <a href="https://www.facebook.com/share/175Y72VCNJ/" className="hover:text-blue-500 transition"><FaFacebook /></a>
             <a href="https://www.instagram.com/farmharvesttohome/?next=%2F" className="hover:text-pink-500 transition"><FaInstagram /></a>
-            <a href="https://wa.me/919844281875" className="hover:text-green-500 transition"><FaWhatsapp /></a>
+            <a href="https://wa.me/918495862494" className="hover:text-green-500 transition"><FaWhatsapp /></a>
           </div>
         </div>
       </div>

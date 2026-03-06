@@ -317,10 +317,10 @@ export default function CancellationRefunds() {
                   <div>
                     <p className="font-medium text-gray-900">Phone</p>
                     <a
-                      href="tel:+919844281875"
+                      href="tel:+918495862494"
                       className="text-green-600 hover:text-green-800 transition-colors"
                     >
-                      +91-9844281875
+                      +91-8495862494
                     </a>
                   </div>
                 </div>

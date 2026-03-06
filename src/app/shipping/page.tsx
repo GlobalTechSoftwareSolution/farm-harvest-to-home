@@ -82,7 +82,7 @@ export default function ShippingPolicy() {
               farmharvesttohome@gmail.com
             </a>
           </p>
-          <p>📞 Phone: +91-9844281875</p>
+          <p>📞 Phone: +91-8495862494</p>
           <p>
             🏢 Address: No 10, 4th Floor, Gaduniya Complex, Ramaiah Layout,
             Vidyaranyapura, Bangalore - 560097
