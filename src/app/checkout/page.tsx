@@ -433,7 +433,7 @@ export default function CheckoutPage() {
 
             {/* RIGHT: Order summary */}
             <div className="md:col-span-1">
-              <div className="bg-white rounded-xl shadow-sm p-6 sticky top-6">
+              <div className="bg-white rounded-xl shadow-sm p-6 md:sticky md:top-24 lg:top-28">
                 <h2 className="text-xl font-semibold mb-6">Order Summary</h2>
 
                 <div className="space-y-4 mb-6 max-h-80 overflow-y-auto">

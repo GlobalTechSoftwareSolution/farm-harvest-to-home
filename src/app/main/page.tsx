@@ -26,7 +26,7 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative bg-cover bg-center bg-no-repeat h-screen flex items-center justify-center"
+      className="relative bg-cover bg-center bg-no-repeat min-h-screen flex items-center justify-center py-20"
       style={{ backgroundImage: "url('/images/farm.jpg')" }}
     >
       {/* Dark overlay */}

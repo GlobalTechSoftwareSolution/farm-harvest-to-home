@@ -100,7 +100,7 @@ export default function ShopPage() {
   return (
     <div className="flex flex-col lg:flex-row bg-gray-50 min-h-screen relative">
   {/* Floating Buttons Wrapper */}
-  <div className="fixed right-3 top-20 lg:top-auto lg:right-10 flex flex-col gap-4">
+  <div className="fixed right-3 bottom-6 sm:bottom-10 sm:right-6 lg:top-auto lg:bottom-10 lg:right-10 flex flex-col gap-4 z-40">
     
     {/* Cart Button */}
     <button

@@ -7,7 +7,7 @@ export default function Philosophy() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
         {/* Background Video */}
         <video
           autoPlay
