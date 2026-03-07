@@ -123,6 +123,7 @@ export default function ProductDetails() {
               src={imageUrl}
               alt={product.name}
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               style={{ objectFit: "contain" }}
               className="rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
             />

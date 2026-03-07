@@ -68,6 +68,7 @@ export default function Navbar() {
             src={user.user_metadata.avatar_url}
             alt="User Avatar"
             fill
+            sizes="32px"
             className="object-cover"
           />
         </div>
@@ -96,6 +97,7 @@ export default function Navbar() {
                 src="/images/farmer.png"
                 alt="Farm Harvest To Home Logo"
                 fill
+                sizes="(max-width: 768px) 64px, 80px"
                 className="rounded-full object-cover"
                 priority
               />
@@ -189,6 +191,7 @@ export default function Navbar() {
                 src="/images/farmer.png"
                 alt="Logo"
                 fill
+                sizes="40px"
                 className="rounded-full object-cover"
               />
             </div>

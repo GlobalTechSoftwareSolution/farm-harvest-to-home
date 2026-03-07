@@ -1,6 +1,6 @@
 "use client";
 
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "@/app/lib/supabaseClient";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { FiCheckCircle, FiShoppingBag, FiUser, FiPhone, FiMapPin, FiMessageSquare, FiCreditCard, FiChevronRight } from "react-icons/fi";
@@ -28,10 +28,6 @@ type Form = {
 
 const STORAGE_KEY = "cart";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export default function CheckoutPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
